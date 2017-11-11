@@ -1,0 +1,1 @@
+Download the [MNIST Dataset](http://yann.lecun.com/exdb/mnist/) to this folder with the `./download_mnist.sh` script.
