@@ -41,6 +41,9 @@ class MNIST:
 
 
 mnist = MNIST('./data')
-# example = mnist.train_data[41, :, :]
-# print(example.shape)
-# mnist.display(example)
+
+
+if __name__ == '__main__':
+    example = mnist.train_data[41, :, :]
+    print(example.shape)
+    mnist.display(example)
