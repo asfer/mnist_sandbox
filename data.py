@@ -2,6 +2,7 @@ import array
 import struct
 
 import numpy as np
+from PIL import Image
 
 
 class MNIST:
@@ -17,11 +18,10 @@ class MNIST:
     def parse_images(filename):
         with open(filename, 'rb') as f:
             magic, items, rows, cols = struct.unpack('>IIII', f.read(16))
-            assert magic == 2051
-            size = rows * cols
+            assert magic == 2051 and rows == 28 and cols == 28
             images = array.array('B', f.read())
-            assert items * size == len(images)
-            return np.array(images, dtype=np.int8).reshape((items, size), order='C')
+            assert items * rows * cols == len(images)
+            return np.array(images, dtype=np.int8).reshape((items, cols, rows), order='C')
 
     @staticmethod
     def parse_labels(filename):
@@ -32,6 +32,15 @@ class MNIST:
             assert len(labels) == items
             return np.array(labels, dtype=np.int8).reshape((items, 1))
 
+    @staticmethod
+    def display(array):
+        image = Image.fromarray(array)
+        scaled_shape = tuple([8 * i for i in array.shape])
+        image = image.resize(scaled_shape)
+        image.show()
+
 
 mnist = MNIST('./data')
-print(mnist.train_data.shape, mnist.train_labels.shape)
+# example = mnist.train_data[41, :, :]
+# print(example.shape)
+# mnist.display(example)
